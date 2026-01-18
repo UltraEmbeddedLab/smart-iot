@@ -21,9 +21,19 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+# Personal docs (not for GitHub)
+/docs
+
+# AI Tools
 /.claude
 /.ai
 /.junie
+/.cursor
+/.aider*
+/.continue
+/.codeium
+/.tabnine
+/.codegpt
 /.mcp.json
 /boost.json
 /_ide_helper.php

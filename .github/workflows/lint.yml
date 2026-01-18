@@ -16,7 +16,7 @@ permissions:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    environment: Testing
+    environment: TestingApp
     steps:
       - uses: actions/checkout@v4
 
