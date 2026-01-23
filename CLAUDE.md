@@ -1,4 +1,9 @@
 <laravel-boost-guidelines>
+=== .ai/laravel rules ===
+
+### Model Creation
+Never use '$fillable' only '$guarded' fields.
+
 === foundation rules ===
 
 # Laravel Boost Guidelines
