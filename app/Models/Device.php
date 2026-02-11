@@ -4,26 +4,12 @@ namespace App\Models;
 
 use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * @property int $id
- * @property string $device_id
- * @property string $name
- * @property DeviceType $type
- * @property string $secret_key
- * @property DeviceStatus $status
- * @property CarbonImmutable|null $last_activity_at
- * @property array<string, mixed>|null $metadata
- * @property CarbonImmutable $created_at
- * @property CarbonImmutable $updated_at
- */
 final class Device extends Model
 {
-    /** @use HasFactory<\Database\Factories\DeviceFactory> */
     use HasFactory;
 
     /**
