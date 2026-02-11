@@ -26,14 +26,16 @@ final class Show extends Component
 
         $this->dispatch('secret-key-regenerated', key: $plainKey);
 
-        Flux::toast(heading: 'Secret key regenerated', text: 'Make sure to save it — it won\'t be shown again.', variant: 'warning');
+        Flux::modal('regenerate-secret-key')->close();
+
+        Flux::toast(text: 'Make sure to save it — it won\'t be shown again.', heading: 'Secret key regenerated', variant: 'warning');
     }
 
     public function deleteDevice(): void
     {
         $this->device->delete();
 
-        Flux::toast(heading: 'Device deleted', text: 'The device has been removed.', variant: 'success');
+        Flux::toast(text: 'The device has been removed.', heading: 'Device deleted', variant: 'success');
 
         $this->redirect(route('devices.index'), navigate: true);
     }

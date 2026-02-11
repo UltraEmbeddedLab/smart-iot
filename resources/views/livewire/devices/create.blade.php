@@ -32,7 +32,7 @@
                 <flux:text class="mt-1">{{ __('Select the type of board you want to configure.') }}</flux:text>
 
                 <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    @foreach (\App\Enums\DeviceType::cases() as $deviceType)
+                    @foreach ($deviceTypes as $deviceType)
                         <button
                             wire:click="selectType('{{ $deviceType->value }}')"
                             class="flex flex-col items-center gap-2 rounded-lg border border-zinc-200 p-4 transition hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:border-zinc-500 dark:hover:bg-zinc-800"
@@ -49,7 +49,7 @@
         @if ($step === 2)
             <flux:card>
                 <flux:heading size="lg">{{ __('Name Your Device') }}</flux:heading>
-                <flux:text class="mt-1">{{ __('Give your :type device a recognizable name.', ['type' => \App\Enums\DeviceType::from($type)->label()]) }}</flux:text>
+                <flux:text class="mt-1">{{ __('Give your :type device a recognizable name.', ['type' => $selectedTypeLabel]) }}</flux:text>
 
                 <form wire:submit="createDevice" class="mt-6 space-y-4">
                     <flux:input wire:model="name" :label="__('Device Name')" placeholder="{{ __('e.g. Living Room Sensor') }}" required autofocus />

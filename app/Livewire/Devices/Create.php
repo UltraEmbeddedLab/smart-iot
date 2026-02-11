@@ -4,6 +4,7 @@ namespace App\Livewire\Devices;
 
 use App\Enums\DeviceType;
 use App\Models\Device;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -32,6 +33,14 @@ final class Create extends Component
         if ($this->step === 2) {
             $this->step = 1;
         }
+    }
+
+    public function render(): View
+    {
+        return view('livewire.devices.create', [
+            'deviceTypes' => DeviceType::cases(),
+            'selectedTypeLabel' => $this->type ? DeviceType::from($this->type)->label() : '',
+        ]);
     }
 
     public function createDevice(): void

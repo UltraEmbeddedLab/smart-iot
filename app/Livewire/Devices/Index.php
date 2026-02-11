@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Devices;
 
+use App\Enums\DeviceStatus;
+use App\Enums\DeviceType;
 use App\Models\Device;
 use Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -68,7 +70,10 @@ final class Index extends Component
 
     public function render(): View
     {
-        return view('livewire.devices.index');
+        return view('livewire.devices.index', [
+            'deviceTypes' => DeviceType::cases(),
+            'deviceStatuses' => DeviceStatus::cases(),
+        ]);
     }
 
     /**
@@ -79,7 +84,7 @@ final class Index extends Component
     {
         return Device::query()
             ->where('user_id', Auth::id())
-            ->when($this->search, fn ($query) => $query->where('name', 'like', "%{$this->search}%"))
+            ->when($this->search, fn ($query) => $query->where('name', 'like', "%$this->search%"))
             ->when($this->filterType, fn ($query) => $query->where('type', $this->filterType))
             ->when($this->filterStatus, fn ($query) => $query->where('status', $this->filterStatus))
             ->orderBy($this->sortBy, $this->sortDirection)

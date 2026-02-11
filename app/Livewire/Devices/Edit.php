@@ -31,7 +31,7 @@ final class Edit extends Component
 
         $this->device->update(['name' => $this->name]);
 
-        Flux::toast(heading: 'Device updated', text: 'The device name has been saved.', variant: 'success');
+        Flux::toast(text: 'The device name has been saved.', heading: 'Device updated', variant: 'success');
 
         $this->redirect(route('devices.show', $this->device), navigate: true);
     }

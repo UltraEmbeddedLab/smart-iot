@@ -74,13 +74,33 @@
                     <template x-if="!newKey">
                         <div>
                             <flux:text class="text-sm">{{ __('The secret key is encrypted and cannot be viewed. You can regenerate it if needed.') }}</flux:text>
-                            <flux:button variant="ghost" icon="arrow-path" class="mt-3" wire:click="regenerateSecretKey" wire:confirm="{{ __('Are you sure? The current secret key will be invalidated.') }}">
-                                {{ __('Regenerate Secret Key') }}
-                            </flux:button>
+
+                            <flux:modal.trigger name="regenerate-secret-key">
+                                <flux:button variant="ghost" icon="arrow-path" class="mt-3">
+                                    {{ __('Regenerate Secret Key') }}
+                                </flux:button>
+                            </flux:modal.trigger>
                         </div>
                     </template>
                 </div>
             </flux:card>
+
+            <flux:modal name="regenerate-secret-key" class="min-w-[22rem]">
+                <div class="space-y-6">
+                    <div>
+                        <flux:heading size="lg">{{ __('Regenerate Secret Key?') }}</flux:heading>
+                        <flux:text class="mt-2">{{ __('The current secret key will be permanently invalidated. Any device using it will lose access.') }}</flux:text>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <flux:spacer />
+                        <flux:modal.close>
+                            <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                        </flux:modal.close>
+                        <flux:button variant="danger" wire:click="regenerateSecretKey">{{ __('Regenerate') }}</flux:button>
+                    </div>
+                </div>
+            </flux:modal>
         </div>
 
         {{-- Metadata --}}
