@@ -61,4 +61,12 @@ final class Thing extends Model
     {
         return $this->hasMany(ThingTag::class);
     }
+
+    /**
+     * Get the cloud variables for the thing.
+     */
+    public function cloudVariables(): HasMany
+    {
+        return $this->hasMany(CloudVariable::class);
+    }
 }

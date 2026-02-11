@@ -150,4 +150,92 @@
             </div>
         @endif
     </flux:card>
+
+    {{-- Cloud Variables --}}
+    <flux:card>
+        <div class="flex items-center justify-between">
+            <div>
+                <flux:heading size="lg">{{ __('Cloud Variables') }}</flux:heading>
+                <flux:text class="mt-1">{{ __('Typed variables that represent IoT data for this thing.') }}</flux:text>
+            </div>
+            <flux:button variant="primary" size="sm" icon="plus" :href="route('things.variables.create', $thing)" wire:navigate>
+                {{ __('Add Variable') }}
+            </flux:button>
+        </div>
+
+        @if ($thing->cloudVariables->isNotEmpty())
+            <div class="mt-4">
+                <flux:table>
+                    <flux:table.columns>
+                        <flux:table.column>{{ __('Name') }}</flux:table.column>
+                        <flux:table.column>{{ __('Type') }}</flux:table.column>
+                        <flux:table.column>{{ __('Declaration') }}</flux:table.column>
+                        <flux:table.column>{{ __('Permission') }}</flux:table.column>
+                        <flux:table.column>{{ __('Last Value') }}</flux:table.column>
+                        <flux:table.column>{{ __('Updated At') }}</flux:table.column>
+                        <flux:table.column></flux:table.column>
+                    </flux:table.columns>
+                    <flux:table.rows>
+                        @foreach ($thing->cloudVariables as $variable)
+                            <flux:table.row :key="$variable->id">
+                                <flux:table.cell variant="strong">{{ $variable->name }}</flux:table.cell>
+                                <flux:table.cell>
+                                    <flux:badge size="sm">{{ $variable->type->label() }}</flux:badge>
+                                </flux:table.cell>
+                                <flux:table.cell>
+                                    <code class="text-xs">{{ $variable->declaration }}</code>
+                                </flux:table.cell>
+                                <flux:table.cell>
+                                    <flux:badge size="sm" :color="$variable->permission->value === 'read_only' ? 'yellow' : 'green'">{{ $variable->permission->label() }}</flux:badge>
+                                </flux:table.cell>
+                                <flux:table.cell>
+                                    @if ($variable->last_value !== null)
+                                        <code class="text-xs">{{ json_encode($variable->last_value) }}</code>
+                                    @else
+                                        <flux:text class="text-xs">&mdash;</flux:text>
+                                    @endif
+                                </flux:table.cell>
+                                <flux:table.cell>
+                                    @if ($variable->value_updated_at)
+                                        <flux:text class="text-xs">{{ $variable->value_updated_at->format('M d, Y H:i') }}</flux:text>
+                                    @else
+                                        <flux:text class="text-xs">&mdash;</flux:text>
+                                    @endif
+                                </flux:table.cell>
+                                <flux:table.cell>
+                                    <div class="flex items-center gap-1">
+                                        <flux:button variant="ghost" size="sm" icon="pencil-square" :href="route('things.variables.edit', [$thing, $variable])" wire:navigate />
+                                        <flux:modal.trigger name="delete-variable-{{ $variable->id }}">
+                                            <flux:button variant="ghost" size="sm" icon="trash" />
+                                        </flux:modal.trigger>
+                                    </div>
+
+                                    <flux:modal name="delete-variable-{{ $variable->id }}" class="min-w-[22rem]">
+                                        <div class="space-y-6">
+                                            <div>
+                                                <flux:heading size="lg">{{ __('Delete Variable?') }}</flux:heading>
+                                                <flux:text class="mt-2">{{ __('This will permanently delete the variable :name. This action cannot be undone.', ['name' => $variable->name]) }}</flux:text>
+                                            </div>
+
+                                            <div class="flex gap-2">
+                                                <flux:spacer />
+                                                <flux:modal.close>
+                                                    <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                                                </flux:modal.close>
+                                                <flux:button variant="danger" wire:click="deleteVariable({{ $variable->id }})">{{ __('Delete') }}</flux:button>
+                                            </div>
+                                        </div>
+                                    </flux:modal>
+                                </flux:table.cell>
+                            </flux:table.row>
+                        @endforeach
+                    </flux:table.rows>
+                </flux:table>
+            </div>
+        @else
+            <div class="mt-4">
+                <flux:text class="text-sm">{{ __('No cloud variables have been added yet.') }}</flux:text>
+            </div>
+        @endif
+    </flux:card>
 </div>

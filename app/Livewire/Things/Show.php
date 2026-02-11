@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Things;
 
+use App\Models\CloudVariable;
 use App\Models\Thing;
 use Flux;
 use Illuminate\Contracts\View\View;
@@ -22,7 +23,7 @@ final class Show extends Component
     {
         abort_unless($thing->user_id === Auth::id(), 403);
 
-        $this->thing = $thing;
+        $this->thing = $thing->load('cloudVariables');
     }
 
     public function addTag(): void
@@ -57,6 +58,20 @@ final class Show extends Component
         $this->thing->load('tags');
 
         Flux::toast(text: 'Tag has been removed.', heading: 'Tag deleted', variant: 'success');
+    }
+
+    public function deleteVariable(int $variableId): void
+    {
+        $variable = CloudVariable::find($variableId);
+
+        if (! $variable || $variable->thing_id !== $this->thing->id) {
+            return;
+        }
+
+        $variable->delete();
+        $this->thing->load('cloudVariables');
+
+        Flux::toast(text: 'The cloud variable has been removed.', heading: 'Variable deleted', variant: 'success');
     }
 
     public function detachDevice(): void

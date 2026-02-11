@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('device_id')->nullable()->unique()->constrained()->nullOnDelete();
-            $table->uuid('uuid')->unique();
+            $table->uuid()->unique();
             $table->string('name');
             $table->string('timezone')->default('UTC');
             $table->timestamps();
