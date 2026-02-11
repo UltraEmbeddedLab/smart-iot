@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('devices', function (Blueprint $table): void {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->uuid('device_id')->unique();
             $table->string('name');
             $table->string('type')->default(DeviceType::Generic->value);

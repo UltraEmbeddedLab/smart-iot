@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,6 +21,7 @@ final class DeviceFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'device_id' => fake()->uuid(),
             'name' => fake()->words(2, true).' Device',
             'type' => fake()->randomElement(DeviceType::cases()),

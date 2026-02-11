@@ -8,6 +8,7 @@ enum DeviceType: string
     case Esp32 = 'esp32';
     case Esp8266 = 'esp8266';
     case Stm32 = 'stm32';
+    case Pico = 'pico';
     case RaspberryPi = 'raspberry_pi';
     case Generic = 'generic';
 
@@ -18,6 +19,7 @@ enum DeviceType: string
             self::Esp32 => 'ESP32',
             self::Esp8266 => 'ESP8266',
             self::Stm32 => 'STM32',
+            self::Pico => 'Raspberry Pi Pico',
             self::RaspberryPi => 'Raspberry Pi',
             self::Generic => 'Generic',
         };

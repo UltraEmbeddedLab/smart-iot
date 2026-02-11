@@ -6,22 +6,18 @@ use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 final class Device extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'type',
-        'status',
-        'metadata',
+    /** @var list<string> */
+    protected $guarded = [
+        'id',
+        'device_id',
+        'secret_key',
     ];
 
     /**
@@ -84,6 +80,14 @@ final class Device extends Model
             'device' => $device,
             'secret_key' => $plainSecretKey,
         ];
+    }
+
+    /**
+     * Get the user that owns the device.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
