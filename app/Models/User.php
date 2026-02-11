@@ -69,6 +69,14 @@ final class User extends Authenticatable
     }
 
     /**
+     * Get the dashboards owned by the user.
+     */
+    public function dashboards(): HasMany
+    {
+        return $this->hasMany(Dashboard::class);
+    }
+
+    /**
      * Get the user's initials
      */
     public function initials(): string

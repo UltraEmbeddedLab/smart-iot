@@ -21,6 +21,9 @@
                     <flux:sidebar.item icon="cube" :href="route('things.index')" :current="request()->routeIs('things.*')" wire:navigate>
                         {{ __('Things') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item icon="squares-2x2" :href="route('dashboards.index')" :current="request()->routeIs('dashboards.*')" wire:navigate>
+                        {{ __('Dashboards') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
