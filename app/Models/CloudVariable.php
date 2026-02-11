@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\CloudVariableType;
 use App\Enums\VariablePermission;
 use App\Enums\VariableUpdatePolicy;
+use App\Events\CloudVariableUpdated;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -78,6 +79,29 @@ final class CloudVariable extends Model
         return Attribute::make(
             get: fn (): string => $this->type->declarationType().' '.$this->variable_name.';',
         );
+    }
+
+    /**
+     * Update the variable's value, respecting the update policy.
+     *
+     * @return bool Whether the value was actually updated
+     */
+    public function updateValue(mixed $value): bool
+    {
+        $newValue = is_array($value) ? $value : ['value' => $value];
+        $oldValue = $this->last_value;
+
+        if ($this->update_policy === VariableUpdatePolicy::OnChange && $oldValue === $newValue) {
+            return false;
+        }
+
+        $this->last_value = $newValue;
+        $this->value_updated_at = now();
+        $this->save();
+
+        CloudVariableUpdated::dispatch($this, $oldValue, $newValue);
+
+        return true;
     }
 
     /**

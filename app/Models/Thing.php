@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
  * @property string $timezone
  * @property CarbonImmutable $created_at
  * @property CarbonImmutable $updated_at
+ * @property-read Device|null $device
  */
 final class Thing extends Model
 {
