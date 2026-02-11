@@ -7,6 +7,7 @@ use App\Enums\DeviceType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 /**
@@ -101,6 +102,14 @@ final class Device extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the thing associated with the device.
+     */
+    public function thing(): HasOne
+    {
+        return $this->hasOne(Thing::class);
     }
 
     /**

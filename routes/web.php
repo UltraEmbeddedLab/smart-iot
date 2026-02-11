@@ -12,3 +12,4 @@ Route::view('dashboard', 'dashboard')
 
 require __DIR__.'/settings.php';
 require __DIR__.'/devices.php';
+require __DIR__.'/things.php';

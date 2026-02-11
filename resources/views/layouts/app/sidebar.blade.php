@@ -18,6 +18,9 @@
                     <flux:sidebar.item icon="cpu-chip" :href="route('devices.index')" :current="request()->routeIs('devices.*')" wire:navigate>
                         {{ __('Devices') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item icon="cube" :href="route('things.index')" :current="request()->routeIs('things.*')" wire:navigate>
+                        {{ __('Things') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
