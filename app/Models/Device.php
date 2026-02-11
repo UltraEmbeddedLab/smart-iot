@@ -22,6 +22,7 @@ use Illuminate\Support\Str;
  * @property array<string, mixed>|null $metadata
  * @property \Carbon\CarbonImmutable $created_at
  * @property \Carbon\CarbonImmutable $updated_at
+ * @property-read Thing|null $thing
  */
 final class Device extends Model
 {
