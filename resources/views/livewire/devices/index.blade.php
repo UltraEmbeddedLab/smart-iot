@@ -1,5 +1,4 @@
-<x-layouts::app :title="__('Devices')">
-    <div class="space-y-6">
+<div class="space-y-6">
         <div class="flex items-center justify-between">
             <div>
                 <flux:heading size="xl">{{ __('Devices') }}</flux:heading>
@@ -82,5 +81,4 @@
                 @endforelse
             </flux:table.rows>
         </flux:table>
-    </div>
-</x-layouts::app>
+</div>

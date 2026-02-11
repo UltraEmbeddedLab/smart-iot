@@ -1,5 +1,4 @@
-<x-layouts::app :title="__('Add Device')">
-    <div class="mx-auto max-w-2xl space-y-6">
+<div class="mx-auto max-w-2xl space-y-6">
         <div>
             <flux:heading size="xl">{{ __('Add Device') }}</flux:heading>
             <flux:text class="mt-1">{{ __('Configure a new device for your IoT Cloud.') }}</flux:text>
@@ -98,5 +97,4 @@
                 </div>
             </flux:card>
         @endif
-    </div>
-</x-layouts::app>
+</div>

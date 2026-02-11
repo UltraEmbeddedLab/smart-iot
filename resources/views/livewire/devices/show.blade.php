@@ -1,5 +1,4 @@
-<x-layouts::app :title="$device->name">
-    <div class="space-y-6">
+<div class="space-y-6">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <flux:button variant="ghost" icon="arrow-left" :href="route('devices.index')" wire:navigate />
@@ -106,5 +105,4 @@
                 </div>
             </flux:card>
         @endif
-    </div>
-</x-layouts::app>
+</div>

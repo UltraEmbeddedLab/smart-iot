@@ -1,5 +1,4 @@
-<x-layouts::app :title="__('Edit Device')">
-    <div class="mx-auto max-w-2xl space-y-6">
+<div class="mx-auto max-w-2xl space-y-6">
         <div class="flex items-center gap-3">
             <flux:button variant="ghost" icon="arrow-left" :href="route('devices.show', $device)" wire:navigate />
             <div>
@@ -19,5 +18,4 @@
                 </div>
             </form>
         </flux:card>
-    </div>
-</x-layouts::app>
+</div>

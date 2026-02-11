@@ -9,6 +9,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $device_id
+ * @property string $name
+ * @property DeviceType $type
+ * @property DeviceStatus $status
+ * @property string $secret_key
+ * @property \Carbon\CarbonImmutable|null $last_activity_at
+ * @property array<string, mixed>|null $metadata
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ */
 final class Device extends Model
 {
     use HasFactory;

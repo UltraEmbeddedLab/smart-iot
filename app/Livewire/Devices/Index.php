@@ -5,6 +5,7 @@ namespace App\Livewire\Devices;
 use App\Models\Device;
 use Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
@@ -63,6 +64,11 @@ final class Index extends Component
             ->delete();
 
         Flux::toast(text: 'The device has been removed.', heading: 'Device deleted', variant: 'success');
+    }
+
+    public function render(): View
+    {
+        return view('livewire.devices.index');
     }
 
     /**

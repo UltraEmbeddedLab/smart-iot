@@ -3,6 +3,7 @@
 use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
 use App\Models\Device;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 it('can create a device with auto-generated device_id', function (): void {
@@ -124,9 +125,12 @@ it('generates unique device_id for each device', function (): void {
 });
 
 it('can create device with credentials and verify secret key', function (): void {
+    $user = User::factory()->create();
+
     $result = Device::createWithCredentials([
         'name' => 'IoT Sensor',
         'type' => DeviceType::Esp32,
+        'user_id' => $user->id,
     ]);
 
     expect($result)->toHaveKeys(['device', 'secret_key']);
