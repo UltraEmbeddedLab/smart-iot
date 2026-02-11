@@ -12,9 +12,28 @@
             </div>
             <div class="flex items-center gap-2">
                 <flux:button variant="ghost" icon="pencil-square" :href="route('devices.edit', $device)" wire:navigate>{{ __('Edit') }}</flux:button>
-                <flux:button variant="danger" icon="trash" wire:click="deleteDevice" wire:confirm="{{ __('Are you sure you want to delete this device? This action cannot be undone.') }}">{{ __('Delete') }}</flux:button>
+                <flux:modal.trigger name="delete-device">
+                    <flux:button variant="danger" icon="trash">{{ __('Delete') }}</flux:button>
+                </flux:modal.trigger>
             </div>
         </div>
+
+        <flux:modal name="delete-device" class="min-w-[22rem]">
+            <div class="space-y-6">
+                <div>
+                    <flux:heading size="lg">{{ __('Delete Device?') }}</flux:heading>
+                    <flux:text class="mt-2">{{ __('This will permanently delete :name and all its data. This action cannot be undone.', ['name' => $device->name]) }}</flux:text>
+                </div>
+
+                <div class="flex gap-2">
+                    <flux:spacer />
+                    <flux:modal.close>
+                        <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                    </flux:modal.close>
+                    <flux:button variant="danger" wire:click="deleteDevice">{{ __('Delete') }}</flux:button>
+                </div>
+            </div>
+        </flux:modal>
 
         <div class="grid gap-6 lg:grid-cols-2">
             {{-- Device Info --}}

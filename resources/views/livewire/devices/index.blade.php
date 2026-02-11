@@ -71,11 +71,26 @@
                                 <flux:menu.item icon="pencil-square" :href="route('devices.edit', $device)"
                                                 wire:navigate>{{ __('Edit') }}</flux:menu.item>
                                 <flux:menu.separator/>
-                                <flux:menu.item icon="trash" variant="danger"
-                                                wire:click="deleteDevice({{ $device->id }})"
-                                                wire:confirm="{{ __('Are you sure you want to delete this device?') }}">{{ __('Delete') }}</flux:menu.item>
+                                <flux:menu.item icon="trash" variant="danger" x-on:click="$flux.modal('delete-device-{{ $device->id }}').show()">{{ __('Delete') }}</flux:menu.item>
                             </flux:menu>
                         </flux:dropdown>
+
+                        <flux:modal :name="'delete-device-'.$device->id" class="min-w-[22rem]">
+                            <div class="space-y-6">
+                                <div>
+                                    <flux:heading size="lg">{{ __('Delete Device?') }}</flux:heading>
+                                    <flux:text class="mt-2">{{ __('This will permanently delete :name and all its data. This action cannot be undone.', ['name' => $device->name]) }}</flux:text>
+                                </div>
+
+                                <div class="flex gap-2">
+                                    <flux:spacer />
+                                    <flux:modal.close>
+                                        <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                                    </flux:modal.close>
+                                    <flux:button variant="danger" wire:click="deleteDevice({{ $device->id }})">{{ __('Delete') }}</flux:button>
+                                </div>
+                            </div>
+                        </flux:modal>
                     </flux:table.cell>
                 </flux:table.row>
             @empty
