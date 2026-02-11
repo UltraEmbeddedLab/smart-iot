@@ -30,8 +30,8 @@ it('provisions a device with valid credentials', function (): void {
                 'status',
                 'device_id',
                 'thing_id',
-                'mqtt' => ['broker', 'port', 'use_tls', 'client_id', 'username', 'password'],
-                'topics' => ['data_in', 'data_out', 'commands', 'status'],
+                'mqtt' => ['host', 'port', 'use_tls', 'client_id', 'username', 'password'],
+                'topics' => ['data_out', 'data_in', 'cmd_up', 'cmd_down', 'status'],
                 'variables',
             ],
         ])
@@ -99,10 +99,11 @@ it('returns correct MQTT topics with thing and device identifiers', function ():
 
     $response->assertSuccessful()
         ->assertJsonPath('data.thing_id', $thing->uuid)
-        ->assertJsonPath('data.topics.data_in', "things/{$thing->uuid}/devices/{$device->device_id}/data/in")
-        ->assertJsonPath('data.topics.data_out', "things/{$thing->uuid}/devices/{$device->device_id}/data/out")
-        ->assertJsonPath('data.topics.commands', "things/{$thing->uuid}/devices/{$device->device_id}/commands")
-        ->assertJsonPath('data.topics.status', "things/{$thing->uuid}/devices/{$device->device_id}/status");
+        ->assertJsonPath('data.topics.data_out', "smartiot/{$thing->uuid}/data/out")
+        ->assertJsonPath('data.topics.data_in', "smartiot/{$thing->uuid}/data/in")
+        ->assertJsonPath('data.topics.cmd_up', "smartiot/{$device->device_id}/cmd/up")
+        ->assertJsonPath('data.topics.cmd_down', "smartiot/{$device->device_id}/cmd/down")
+        ->assertJsonPath('data.topics.status', "smartiot/{$device->device_id}/status");
 });
 
 it('returns cloud variables in provisioning response', function (): void {

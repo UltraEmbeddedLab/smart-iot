@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
 return [
-    'broker' => env('MQTT_BROKER', 'broker.hivemq.com'),
+    'host' => env('MQTT_HOST', 'broker.hivemq.com'),
     'port' => (int) env('MQTT_PORT', 8883),
-    'use_tls' => (bool) env('MQTT_USE_TLS', true),
+    'scheme' => env('MQTT_SCHEME', 'tls'),
+    'username' => env('MQTT_USERNAME'),
+    'password' => env('MQTT_PASSWORD'),
 ];
