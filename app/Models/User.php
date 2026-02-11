@@ -77,6 +77,14 @@ final class User extends Authenticatable
     }
 
     /**
+     * Get the triggers owned by the user.
+     */
+    public function triggers(): HasMany
+    {
+        return $this->hasMany(Trigger::class);
+    }
+
+    /**
      * Get the user's initials
      */
     public function initials(): string

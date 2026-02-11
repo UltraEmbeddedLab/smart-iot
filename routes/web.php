@@ -14,3 +14,4 @@ require __DIR__.'/settings.php';
 require __DIR__.'/devices.php';
 require __DIR__.'/things.php';
 require __DIR__.'/dashboards.php';
+require __DIR__.'/triggers.php';

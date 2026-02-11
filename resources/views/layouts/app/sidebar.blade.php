@@ -24,6 +24,9 @@
                     <flux:sidebar.item icon="squares-2x2" :href="route('dashboards.index')" :current="request()->routeIs('dashboards.*')" wire:navigate>
                         {{ __('Dashboards') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item icon="bolt" :href="route('triggers.index')" :current="request()->routeIs('triggers.*')" wire:navigate>
+                        {{ __('Triggers') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
