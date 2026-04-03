@@ -5,12 +5,13 @@ namespace App\Mail;
 use App\Models\Thing;
 use App\Models\Trigger;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-final class TriggerAlertMail extends Mailable
+final class TriggerAlertMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
