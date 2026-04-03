@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Random\RandomException;
 use ScienceStories\Mqtt\Easy\Mqtt;
 use ScienceStories\Mqtt\Protocol\QoS;
 
@@ -19,6 +20,9 @@ final class PublishMqttMessage implements ShouldQueue
         public bool $retain = false,
     ) {}
 
+    /**
+     * @throws RandomException
+     */
     public function handle(): void
     {
         $host = (string) config('mqtt.host');

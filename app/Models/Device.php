@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,10 +19,10 @@ use Illuminate\Support\Str;
  * @property DeviceType $type
  * @property DeviceStatus $status
  * @property string $secret_key
- * @property \Carbon\CarbonImmutable|null $last_activity_at
+ * @property CarbonImmutable|null $last_activity_at
  * @property array<string, mixed>|null $metadata
- * @property \Carbon\CarbonImmutable $created_at
- * @property \Carbon\CarbonImmutable $updated_at
+ * @property CarbonImmutable $created_at
+ * @property CarbonImmutable $updated_at
  * @property-read Thing|null $thing
  */
 final class Device extends Model

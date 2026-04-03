@@ -6,10 +6,12 @@ use App\Enums\VariablePermission;
 use App\Enums\WidgetType;
 use App\Models\CloudVariable;
 use App\Models\Dashboard;
+use App\Models\Thing;
 use App\Models\Widget;
 use App\Services\MqttService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use JsonException;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -25,6 +27,9 @@ final class Show extends Component
         $this->dashboard = $dashboard;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function toggleSwitch(int $widgetId): void
     {
         $widget = $this->resolveWritableWidget($widgetId, WidgetType::Switch);
@@ -40,7 +45,7 @@ final class Show extends Component
 
         $variable->updateValue($newValue);
 
-        /** @var \App\Models\Thing $thing */
+        /** @var Thing $thing */
         $thing = $variable->thing;
 
         app(MqttService::class)->publishToThing(
@@ -49,6 +54,9 @@ final class Show extends Component
         );
     }
 
+    /**
+     * @throws JsonException
+     */
     public function updateSlider(int $widgetId, float $value): void
     {
         $widget = $this->resolveWritableWidget($widgetId, WidgetType::Slider);
@@ -70,7 +78,7 @@ final class Show extends Component
 
         $variable->updateValue($value);
 
-        /** @var \App\Models\Thing $thing */
+        /** @var Thing $thing */
         $thing = $variable->thing;
 
         app(MqttService::class)->publishToThing(

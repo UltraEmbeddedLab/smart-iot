@@ -7,7 +7,7 @@ use App\Jobs\ExecuteTriggerAction;
 use App\Models\Trigger;
 use App\Services\TriggerEvaluator;
 
-final class EvaluateCloudTriggers
+final readonly class EvaluateCloudTriggers
 {
     public function __construct(
         private TriggerEvaluator $evaluator,

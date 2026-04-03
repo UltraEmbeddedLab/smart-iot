@@ -3,11 +3,12 @@
 namespace App\Http\Resources\Api\V1;
 
 use App\Enums\VariableUpdatePolicy;
+use App\Models\CloudVariable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\CloudVariable
+ * @mixin CloudVariable
  */
 final class CloudVariableResource extends JsonResource
 {

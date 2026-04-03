@@ -18,7 +18,7 @@ final class TriggerEvaluator
             return $this->compareNumeric((float) $currentValue, $trigger->operator, (float) $triggerValue);
         }
 
-        return $this->compareString((string) $currentValue, $trigger->operator, (string) $triggerValue);
+        return $this->compareString((string) $currentValue, $trigger->operator, $triggerValue);
     }
 
     private function compareNumeric(float $current, TriggerOperator $operator, float $threshold): bool

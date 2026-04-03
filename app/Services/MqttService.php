@@ -8,6 +8,7 @@ use App\Jobs\ProcessMqttMessage;
 use App\Jobs\PublishMqttMessage;
 use App\Models\Device;
 use Illuminate\Support\Facades\Log;
+use JsonException;
 use ScienceStories\Mqtt\Client\InboundMessage;
 
 final class MqttService
@@ -54,11 +55,13 @@ final class MqttService
      * Publish values to a thing's data/in topic.
      *
      * @param  array<string, mixed>  $values
+     *
+     * @throws JsonException
      */
     public function publishToThing(string $thingUuid, array $values): void
     {
         PublishMqttMessage::dispatch(
-            topic: "smartiot/{$thingUuid}/data/in",
+            topic: "smartiot/$thingUuid/data/in",
             payload: json_encode($values, JSON_THROW_ON_ERROR),
         );
     }
@@ -69,7 +72,7 @@ final class MqttService
     public function publishCommand(string $deviceId, string $command): void
     {
         PublishMqttMessage::dispatch(
-            topic: "smartiot/{$deviceId}/cmd/down",
+            topic: "smartiot/$deviceId/cmd/down",
             payload: $command,
         );
     }

@@ -30,6 +30,6 @@ final class DeviceProvisionController extends Controller
         $mqttConfig = $mqttService->generateMqttConfig($device);
         $topics = $mqttService->generateTopics($device);
 
-        return (new ProvisioningResource($device))->withMqtt($mqttConfig, $topics);
+        return new ProvisioningResource($device)->withMqtt($mqttConfig, $topics);
     }
 }

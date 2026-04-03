@@ -6,6 +6,7 @@ use App\Models\CloudVariable;
 use App\Models\Thing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 final class ProcessMqttMessage implements ShouldQueue
@@ -33,7 +34,7 @@ final class ProcessMqttMessage implements ShouldQueue
             return;
         }
 
-        /** @var \Illuminate\Support\Collection<string, CloudVariable> $variablesByName */
+        /** @var Collection<string, CloudVariable> $variablesByName */
         $variablesByName = $thing->cloudVariables->keyBy('variable_name');
 
         foreach ($this->payload as $variableName => $value) {

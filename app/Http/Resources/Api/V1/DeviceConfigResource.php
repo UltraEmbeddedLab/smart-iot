@@ -2,11 +2,12 @@
 
 namespace App\Http\Resources\Api\V1;
 
+use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Models\Device
+ * @mixin Device
  */
 final class DeviceConfigResource extends JsonResource
 {
@@ -15,7 +16,7 @@ final class DeviceConfigResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var \App\Models\Device $device */
+        /** @var Device $device */
         $device = $this->resource;
         $thing = $device->thing;
 

@@ -4,9 +4,12 @@ namespace App\Services;
 
 use App\Models\Device;
 use Illuminate\Support\Str;
+use JsonException;
+use Random\RandomException;
 use ScienceStories\Mqtt\Client\Client;
 use ScienceStories\Mqtt\Client\Options;
 use ScienceStories\Mqtt\Client\WillOptions;
+use ScienceStories\Mqtt\Easy\Mqtt;
 use ScienceStories\Mqtt\Protocol\MqttVersion;
 use ScienceStories\Mqtt\Protocol\QoS;
 use ScienceStories\Mqtt\Transport\TcpTransport;
@@ -28,7 +31,7 @@ final class MqttProvisioningService
             'host' => config('mqtt.host'),
             'port' => config('mqtt.port'),
             'use_tls' => config('mqtt.scheme') === 'tls',
-            'client_id' => "smartiot_{$device->device_id}",
+            'client_id' => "smartiot_$device->device_id",
             'username' => config('mqtt.username') ?? $device->device_id,
             'password' => $token,
         ];
@@ -46,30 +49,30 @@ final class MqttProvisioningService
         $deviceId = $device->device_id;
 
         return [
-            'data_out' => "smartiot/{$thingId}/data/out",
-            'data_in' => "smartiot/{$thingId}/data/in",
-            'cmd_up' => "smartiot/{$deviceId}/cmd/up",
-            'cmd_down' => "smartiot/{$deviceId}/cmd/down",
-            'status' => "smartiot/{$deviceId}/status",
+            'data_out' => "smartiot/$thingId/data/out",
+            'data_in' => "smartiot/$thingId/data/in",
+            'cmd_up' => "smartiot/$deviceId/cmd/up",
+            'cmd_down' => "smartiot/$deviceId/cmd/down",
+            'status' => "smartiot/$deviceId/status",
         ];
     }
 
     /**
      * Build MQTT client options for a device.
      */
-    public function buildClientOptions(Device $device, string $mqttToken): Options
+    public function buildClientOptions(Device $device): Options
     {
         $host = (string) config('mqtt.host');
         $port = (int) config('mqtt.port');
         $scheme = (string) config('mqtt.scheme', 'tls');
-        $statusTopic = "smartiot/{$device->device_id}/status";
+        $statusTopic = "smartiot/$device->device_id/status";
 
         $options = new Options(
             host: $host,
             port: $port,
             version: MqttVersion::V5_0,
         )
-            ->withClientId("smartiot_{$device->device_id}")
+            ->withClientId("smartiot_$device->device_id")
             ->withKeepAlive(60)
             ->withCleanSession(false)
             ->withWill(new WillOptions(
@@ -98,16 +101,19 @@ final class MqttProvisioningService
 
     /**
      * Publish the device online status to MQTT broker.
+     *
+     * @throws JsonException
+     * @throws RandomException
      */
     public function publishDeviceOnline(Device $device): void
     {
-        $statusTopic = "smartiot/{$device->device_id}/status";
+        $statusTopic = "smartiot/$device->device_id/status";
         $host = (string) config('mqtt.host');
         $port = (int) config('mqtt.port');
         $scheme = (string) config('mqtt.scheme', 'tls');
         $useTls = $scheme === 'tls';
 
-        \ScienceStories\Mqtt\Easy\Mqtt::publish(
+        Mqtt::publish(
             host: $host,
             topic: $statusTopic,
             payload: json_encode([
@@ -133,9 +139,9 @@ final class MqttProvisioningService
     /**
      * Create a connected MQTT client for a device.
      */
-    public function createClient(Device $device, string $mqttToken): Client
+    public function createClient(Device $device): Client
     {
-        $options = $this->buildClientOptions($device, $mqttToken);
+        $options = $this->buildClientOptions($device);
         $transport = new TcpTransport();
 
         $client = new Client($options, $transport);
