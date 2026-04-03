@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de2fb773ae37c79503003e98a5f3d1e3",
+    "content-hash": "8f0df91462e72ea1c5d4bf9b14ba411e",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6378,16 +6378,16 @@
         },
         {
             "name": "ultraembeddedlab/php-iot",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UltraEmbeddedLab/php-iot.git",
-                "reference": "300c98541b99f5d3c58bf65862ecc6e2ac7c9445"
+                "reference": "33e9d3da8ca2a2d80d1b8a150986351c07eba133"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UltraEmbeddedLab/php-iot/zipball/300c98541b99f5d3c58bf65862ecc6e2ac7c9445",
-                "reference": "300c98541b99f5d3c58bf65862ecc6e2ac7c9445",
+                "url": "https://api.github.com/repos/UltraEmbeddedLab/php-iot/zipball/33e9d3da8ca2a2d80d1b8a150986351c07eba133",
+                "reference": "33e9d3da8ca2a2d80d1b8a150986351c07eba133",
                 "shasum": ""
             },
             "require": {
@@ -6397,12 +6397,12 @@
                 "psr/log": "^3.0.2"
             },
             "require-dev": {
-                "laravel/pint": "^v1.27.0",
-                "pestphp/pest": "^v4.3.1",
+                "laravel/pint": "^v1.29.0",
+                "pestphp/pest": "^v4.4.3",
                 "pestphp/pest-plugin-type-coverage": "^v4.0.3",
-                "phpstan/phpstan": "^2.1.33",
-                "rector/rector": "^2.3.1",
-                "symfony/var-dumper": "^v7.4.3",
+                "phpstan/phpstan": "^2.1.46",
+                "rector/rector": "^2.3.9",
+                "symfony/var-dumper": "^v7.4.8",
                 "vlucas/phpdotenv": "^v5.6.3"
             },
             "suggest": {
@@ -6443,7 +6443,7 @@
                 "issues": "https://github.com/UltraEmbeddedLab/php-iot/issues",
                 "source": "https://github.com/UltraEmbeddedLab/php-iot"
             },
-            "time": "2026-03-29T16:15:50+00:00"
+            "time": "2026-04-03T23:09:56+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
