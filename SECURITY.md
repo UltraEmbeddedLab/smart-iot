@@ -6,7 +6,7 @@ If you discover a security vulnerability in Smart IoT Cloud, please report it re
 
 **Do not open a public issue for security vulnerabilities.**
 
-Instead, please email security concerns to the maintainers via the repository's [Security Advisories](https://github.com/UltraEmbeddedLab/smart-iot/security/advisories/new) page on GitHub.
+Instead, please report security concerns to the maintainers via the repository's [Security Advisories](https://github.com/UltraEmbeddedLab/smart-iot/security/advisories/new) page on GitHub.
 
 ### What to Include
 
