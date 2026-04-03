@@ -373,7 +373,7 @@ it('sends email when trigger action is email', function (): void {
 
     (new ExecuteTriggerAction($trigger))->handle();
 
-    Mail::assertSent(TriggerAlertMail::class, function (TriggerAlertMail $mail) {
+    Mail::assertQueued(TriggerAlertMail::class, function (TriggerAlertMail $mail) {
         return $mail->hasTo('alert@example.com');
     });
 });

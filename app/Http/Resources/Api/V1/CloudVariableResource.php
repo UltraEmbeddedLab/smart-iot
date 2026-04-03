@@ -6,7 +6,9 @@ use App\Enums\VariableUpdatePolicy;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\CloudVariable */
+/**
+ * @mixin \App\Models\CloudVariable
+ */
 final class CloudVariableResource extends JsonResource
 {
     /**

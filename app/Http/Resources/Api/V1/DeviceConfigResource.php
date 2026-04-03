@@ -5,7 +5,9 @@ namespace App\Http\Resources\Api\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Device */
+/**
+ * @mixin \App\Models\Device
+ */
 final class DeviceConfigResource extends JsonResource
 {
     /**

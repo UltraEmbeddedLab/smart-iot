@@ -4,21 +4,25 @@ A modern IoT Cloud platform built with Laravel, demonstrating the capabilities o
 
 ## About
 
-Smart IoT is an open-source project that showcases how PHP and Laravel can be effectively used to build IoT cloud platforms. It provides a foundation for connecting, managing, and monitoring IoT devices at scale.
+Smart IoT is an open-source platform that showcases how PHP and Laravel can be effectively used to build IoT cloud platforms. It provides a foundation for connecting, managing, and monitoring IoT devices with real-time data processing over MQTT.
 
-This project demonstrates:
+### Key Features
 
-- **PHP for IoT**: Leveraging PHP's capabilities for real-time IoT data processing
-- **Laravel Framework**: Modern, elegant PHP framework for robust backend development
-- **Livewire**: Full-stack framework for dynamic interfaces without leaving PHP
-- **Scalable Architecture**: Designed to handle multiple devices and data streams
+- **Device Management** — Register, provision, and monitor IoT devices with automatic UUID and secret key generation
+- **MQTT Communication** — Full MQTT v5.0 support with Last Will Testament, topic-based routing, and bidirectional data flow
+- **Cloud Variables** — 17 IoT-specific types (temperature, humidity, voltage, etc.) that sync between device firmware and the cloud
+- **Triggers & Automation** — Rule-based automation that watches cloud variables and fires actions (email, webhook) with configurable cooldowns
+- **Customizable Dashboards** — Grid-based dashboards with widgets (Value, Switch, LED, Gauge, Slider, Chart) bound to cloud variables
+- **Device Provisioning API** — Secure REST API for device onboarding with MQTT credential generation
+- **Firmware Integration** — Auto-generated C++ variable declarations for embedding in device sketches
 
 ## Requirements
 
-- PHP 8.2 or higher
+- PHP 8.4 or higher
 - Composer
 - Node.js 22+
 - SQLite (default) or MySQL/PostgreSQL
+- MQTT Broker (e.g. Mosquitto) for device communication
 
 ## Installation
 
@@ -49,7 +53,35 @@ This will:
 composer dev
 ```
 
-The application will be available at `http://localhost:8000`.
+This starts Laravel server, queue worker, and Vite dev server concurrently.
+
+If using [Laravel Herd](https://herd.laravel.com), the application is automatically available at `https://smart-iot.test`.
+
+## API
+
+All API routes are prefixed with `/api/v1`.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/provision` | Device provisioning (returns MQTT credentials and topic map) |
+| `POST` | `/heartbeat` | Device heartbeat (requires device auth) |
+| `GET` | `/config/{device_id}` | Fetch device configuration (requires device auth) |
+
+### Provisioning Flow
+
+1. Create a device in the web UI — a UUID and secret key are generated (shown once)
+2. The physical device calls `POST /api/v1/provision` with `device_id` + `secret_key`
+3. On success, receives MQTT connection config, topic map, and cloud variable declarations
+4. Device connects to the MQTT broker and begins data exchange
+
+### MQTT Topics
+
+| Topic | Direction | Purpose |
+|-------|-----------|---------|
+| `smartiot/{thingUuid}/data/out` | Device -> Cloud | Sensor data from device |
+| `smartiot/{thingUuid}/data/in` | Cloud -> Device | Values pushed to device |
+| `smartiot/{deviceId}/cmd/down` | Cloud -> Device | Commands to device |
+| `smartiot/{deviceId}/status` | Device -> Cloud | Online/offline presence (LWT) |
 
 ## Development
 
@@ -86,13 +118,21 @@ composer stan
 composer pest
 ```
 
+### MQTT Listener
+
+```bash
+php artisan mqtt:listen
+```
+
 ## Tech Stack
 
 - **Backend**: Laravel 12, PHP 8.4+
 - **Frontend**: Livewire 4, Flux UI, Tailwind CSS 4
+- **Communication**: MQTT v5.0 (via php-iot)
 - **Testing**: Pest 4, PHPUnit 12
 - **Static Analysis**: Larastan (PHPStan for Laravel)
 - **Code Style**: Laravel Pint
+- **CI/CD**: GitHub Actions (tests, linter, static analysis, CodeQL)
 
 ## License
 
