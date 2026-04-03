@@ -8,6 +8,9 @@
             </div>
         </div>
         <div class="flex items-center gap-2">
+            @if ($thing->device && $thing->cloudVariables->isNotEmpty())
+                <flux:button variant="primary" icon="code-bracket" :href="route('things.firmware', $thing)" wire:navigate>{{ __('Generate Firmware') }}</flux:button>
+            @endif
             <flux:button variant="ghost" icon="pencil-square" :href="route('things.edit', $thing)" wire:navigate>{{ __('Edit') }}</flux:button>
             <flux:modal.trigger name="delete-thing">
                 <flux:button variant="danger" icon="trash">{{ __('Delete') }}</flux:button>

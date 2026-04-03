@@ -24,4 +24,17 @@ enum DeviceType: string
             self::Generic => 'Generic',
         };
     }
+
+    public function libraries(): string
+    {
+        return match ($this) {
+            self::Arduino => 'WiFiNINA.h, PubSubClient.h, ArduinoJson.h, ArduinoHttpClient.h',
+            self::Esp32 => 'WiFi.h, PubSubClient.h, ArduinoJson.h, HTTPClient.h',
+            self::Esp8266 => 'ESP8266WiFi.h, PubSubClient.h, ArduinoJson.h, ESP8266HTTPClient.h',
+            self::Stm32 => 'STM32WiFi.h, PubSubClient.h, ArduinoJson.h, HttpClient.h',
+            self::Pico => 'WiFi.h, PubSubClient.h, ArduinoJson.h, HTTPClient.h',
+            self::RaspberryPi => 'paho-mqtt, requests, json (Python)',
+            self::Generic => 'WiFi.h, PubSubClient.h, ArduinoJson.h, HTTPClient.h',
+        };
+    }
 }

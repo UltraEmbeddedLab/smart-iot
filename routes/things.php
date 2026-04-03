@@ -9,6 +9,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('things/create', Things\Create::class)->name('things.create');
     Route::livewire('things/{thing}', Things\Show::class)->name('things.show');
     Route::livewire('things/{thing}/edit', Things\Edit::class)->name('things.edit');
+    Route::livewire('things/{thing}/firmware', Things\GenerateFirmware::class)->name('things.firmware');
 
     Route::livewire('things/{thing}/variables/create', Variables\Create::class)->name('things.variables.create');
     Route::livewire('things/{thing}/variables/{variable}/edit', Variables\Edit::class)->name('things.variables.edit');

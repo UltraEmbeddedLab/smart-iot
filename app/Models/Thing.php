@@ -57,6 +57,8 @@ final class Thing extends Model
 
     /**
      * Get the tags for the thing.
+     *
+     * @return HasMany<ThingTag, $this>
      */
     public function tags(): HasMany
     {
@@ -65,6 +67,8 @@ final class Thing extends Model
 
     /**
      * Get the cloud variables for the thing.
+     *
+     * @return HasMany<CloudVariable, $this>
      */
     public function cloudVariables(): HasMany
     {
