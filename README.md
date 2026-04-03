@@ -22,7 +22,7 @@ Smart IoT is an open-source platform that showcases how PHP and Laravel can be e
 - Composer
 - Node.js 22+
 - SQLite (default) or MySQL/PostgreSQL
-- MQTT Broker (e.g. Mosquitto) for device communication
+- MQTT Broker (e.g., Mosquitto) for device communication
 
 ## Installation
 
@@ -61,11 +61,11 @@ If using [Laravel Herd](https://herd.laravel.com), the application is automatica
 
 All API routes are prefixed with `/api/v1`.
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/provision` | Device provisioning (returns MQTT credentials and topic map) |
-| `POST` | `/heartbeat` | Device heartbeat (requires device auth) |
-| `GET` | `/config/{device_id}` | Fetch device configuration (requires device auth) |
+| Method | Endpoint              | Description                                                  |
+|--------|-----------------------|--------------------------------------------------------------|
+| `POST` | `/provision`          | Device provisioning (returns MQTT credentials and topic map) |
+| `POST` | `/heartbeat`          | Device heartbeat (requires device auth)                      |
+| `GET`  | `/config/{device_id}` | Fetch device configuration (requires device auth)            |
 
 ### Provisioning Flow
 
@@ -76,12 +76,12 @@ All API routes are prefixed with `/api/v1`.
 
 ### MQTT Topics
 
-| Topic | Direction | Purpose |
-|-------|-----------|---------|
-| `smartiot/{thingUuid}/data/out` | Device -> Cloud | Sensor data from device |
-| `smartiot/{thingUuid}/data/in` | Cloud -> Device | Values pushed to device |
-| `smartiot/{deviceId}/cmd/down` | Cloud -> Device | Commands to device |
-| `smartiot/{deviceId}/status` | Device -> Cloud | Online/offline presence (LWT) |
+| Topic                           | Direction       | Purpose                       |
+|---------------------------------|-----------------|-------------------------------|
+| `smartiot/{thingUuid}/data/out` | Device -> Cloud | Sensor data from device       |
+| `smartiot/{thingUuid}/data/in`  | Cloud -> Device | Values pushed to device       |
+| `smartiot/{deviceId}/cmd/down`  | Cloud -> Device | Commands to device            |
+| `smartiot/{deviceId}/status`    | Device -> Cloud | Online/offline presence (LWT) |
 
 ## Development
 
