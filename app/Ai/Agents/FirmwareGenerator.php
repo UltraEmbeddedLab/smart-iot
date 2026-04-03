@@ -35,11 +35,15 @@ final class FirmwareGenerator implements Agent
         $isRaspberryPi = $deviceType->value === 'raspberry_pi';
         $language = $isRaspberryPi ? 'Python' : 'C++ (Arduino framework)';
 
-        $variableDeclarations = $variables->map(function (CloudVariable $v): string {
-            return "- $v->declaration // {$v->permission->label()}, {$v->update_policy->label()}";
-        })->implode("\n");
+        $variableDeclarations = $variables->isEmpty()
+            ? 'No cloud variables defined yet. Generate a basic connectivity skeleton with WiFi, MQTT, provisioning, and heartbeat — ready for the user to add variables later.'
+            : $variables->map(function (CloudVariable $v): string {
+                return "- $v->declaration // {$v->permission->label()}, {$v->update_policy->label()}";
+            })->implode("\n");
 
-        $variableNames = $variables->pluck('variable_name')->implode(', ');
+        $variableNames = $variables->isEmpty()
+            ? '(none defined yet)'
+            : $variables->pluck('variable_name')->implode(', ');
 
         $appUrl = config('app.url', 'https://smart-iot.test');
 

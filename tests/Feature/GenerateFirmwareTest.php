@@ -4,6 +4,7 @@ use App\Ai\Agents\FirmwareGenerator;
 use App\Livewire\Things\GenerateFirmware;
 use App\Models\CloudVariable;
 use App\Models\Device;
+use App\Models\Firmware;
 use App\Models\Thing;
 use App\Models\User;
 use Livewire\Livewire;
@@ -32,7 +33,6 @@ it('returns 403 for another user\'s thing', function (): void {
     $otherThing = Thing::factory()->create();
     $otherDevice = Device::factory()->for($otherThing->user)->create();
     $otherThing->update(['device_id' => $otherDevice->id]);
-    CloudVariable::factory()->for($otherThing)->create();
 
     Livewire::test(GenerateFirmware::class, ['thing' => $otherThing])
         ->assertForbidden();
@@ -40,20 +40,20 @@ it('returns 403 for another user\'s thing', function (): void {
 
 it('aborts when thing has no device', function (): void {
     $thingWithoutDevice = Thing::factory()->for($this->user)->create(['device_id' => null]);
-    CloudVariable::factory()->for($thingWithoutDevice)->create();
 
     Livewire::test(GenerateFirmware::class, ['thing' => $thingWithoutDevice])
         ->assertNotFound();
 });
 
-it('aborts when thing has no cloud variables', function (): void {
+it('renders page when thing has no cloud variables', function (): void {
     $newDevice = Device::factory()->for($this->user)->create();
     $thingWithoutVars = Thing::factory()->for($this->user)->create([
         'device_id' => $newDevice->id,
     ]);
 
     Livewire::test(GenerateFirmware::class, ['thing' => $thingWithoutVars])
-        ->assertNotFound();
+        ->assertSee('No cloud variables defined')
+        ->assertSuccessful();
 });
 
 it('validates wifi ssid is required', function (): void {
@@ -98,4 +98,57 @@ it('handles AI generation failure gracefully', function (): void {
         ->call('generateCode')
         ->assertSet('generatedCode', '')
         ->assertSee('Failed to generate firmware');
+});
+
+it('can save generated firmware', function (): void {
+    FirmwareGenerator::fake([
+        '// ESP32 firmware code',
+    ]);
+
+    Livewire::test(GenerateFirmware::class, ['thing' => $this->thing])
+        ->set('wifiSsid', 'MyNetwork')
+        ->set('wifiPassword', 'password123')
+        ->call('generateCode')
+        ->set('firmwareName', 'v1.0 Temperature')
+        ->call('saveFirmware');
+
+    $firmware = Firmware::query()->where('thing_id', $this->thing->id)->first();
+
+    expect($firmware)
+        ->not->toBeNull()
+        ->name->toBe('v1.0 Temperature')
+        ->code->toBe('// ESP32 firmware code')
+        ->device_type->value->toBe($this->device->type->value);
+});
+
+it('validates firmware name when saving', function (): void {
+    FirmwareGenerator::fake(['// code']);
+
+    Livewire::test(GenerateFirmware::class, ['thing' => $this->thing])
+        ->set('wifiSsid', 'MyNetwork')
+        ->set('wifiPassword', 'password123')
+        ->call('generateCode')
+        ->set('firmwareName', '')
+        ->call('saveFirmware')
+        ->assertHasErrors('firmwareName');
+});
+
+it('can delete saved firmware', function (): void {
+    $firmware = Firmware::factory()->create(['thing_id' => $this->thing->id]);
+
+    Livewire::test(GenerateFirmware::class, ['thing' => $this->thing])
+        ->call('deleteFirmware', $firmware->id);
+
+    expect(Firmware::find($firmware->id))->toBeNull();
+});
+
+it('can load saved firmware into code view', function (): void {
+    $firmware = Firmware::factory()->create([
+        'thing_id' => $this->thing->id,
+        'code' => '// Saved firmware code',
+    ]);
+
+    Livewire::test(GenerateFirmware::class, ['thing' => $this->thing])
+        ->call('loadFirmware', $firmware->id)
+        ->assertSet('generatedCode', '// Saved firmware code');
 });

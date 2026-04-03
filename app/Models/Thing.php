@@ -74,4 +74,14 @@ final class Thing extends Model
     {
         return $this->hasMany(CloudVariable::class);
     }
+
+    /**
+     * Get the firmware generated for this thing.
+     *
+     * @return HasMany<Firmware, $this>
+     */
+    public function firmware(): HasMany
+    {
+        return $this->hasMany(Firmware::class);
+    }
 }

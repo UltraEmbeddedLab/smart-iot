@@ -4,6 +4,7 @@ namespace App\Livewire\Things;
 
 use App\Ai\Agents\FirmwareGenerator;
 use App\Models\Thing;
+use Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
@@ -25,13 +26,14 @@ final class GenerateFirmware extends Component
 
     public string $errorMessage = '';
 
+    public string $firmwareName = '';
+
     public function mount(Thing $thing): void
     {
         abort_unless($thing->user_id === Auth::id(), 403);
         abort_unless($thing->device !== null, 404, 'This thing has no device attached.');
-        abort_unless($thing->cloudVariables->isNotEmpty(), 404, 'This thing has no cloud variables defined.');
 
-        $this->thing = $thing->load(['device', 'cloudVariables']);
+        $this->thing = $thing->load(['device', 'cloudVariables', 'firmware']);
     }
 
     public function generateCode(): void
@@ -62,6 +64,47 @@ final class GenerateFirmware extends Component
         } finally {
             $this->isGenerating = false;
         }
+    }
+
+    public function saveFirmware(): void
+    {
+        $this->validate([
+            'firmwareName' => ['required', 'string', 'min:2', 'max:255'],
+            'generatedCode' => ['required', 'string'],
+        ]);
+
+        $this->thing->firmware()->create([
+            'name' => $this->firmwareName,
+            'code' => $this->generatedCode,
+            'device_type' => $this->thing->device->type,
+            'parameters' => [
+                'wifi_ssid' => $this->wifiSsid,
+            ],
+        ]);
+
+        $this->thing->load('firmware');
+        $this->reset('firmwareName');
+
+        Flux::toast(text: 'Firmware has been saved.', heading: 'Firmware saved', variant: 'success');
+    }
+
+    public function deleteFirmware(int $firmwareId): void
+    {
+        $this->thing->firmware()->where('id', $firmwareId)->delete();
+        $this->thing->load('firmware');
+
+        Flux::toast(text: 'Firmware has been deleted.', heading: 'Firmware deleted', variant: 'success');
+    }
+
+    public function loadFirmware(int $firmwareId): void
+    {
+        $firmware = $this->thing->firmware()->find($firmwareId);
+
+        if (! $firmware) {
+            return;
+        }
+
+        $this->generatedCode = $firmware->code;
     }
 
     public function render(): View
