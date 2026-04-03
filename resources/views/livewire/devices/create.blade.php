@@ -52,7 +52,7 @@
                 <flux:text class="mt-1">{{ __('Give your :type device a recognizable name.', ['type' => $selectedTypeLabel]) }}</flux:text>
 
                 <form wire:submit="createDevice" class="mt-6 space-y-4">
-                    <flux:input wire:model="name" :label="__('Device Name')" placeholder="{{ __('e.g. Living Room Sensor') }}" required autofocus />
+                    <flux:input wire:model="name" :label="__('Device Name')" placeholder="{{ __('e.g. Living Room Sensor') }}" required autofocus autocomplete="new-password" />
                     <flux:error name="name" />
 
                     <div class="flex items-center gap-3">
