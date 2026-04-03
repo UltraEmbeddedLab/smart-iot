@@ -36,7 +36,7 @@ final class FirmwareGenerator implements Agent
         $language = $isRaspberryPi ? 'Python' : 'C++ (Arduino framework)';
 
         $variableDeclarations = $variables->map(function (CloudVariable $v): string {
-            return "- {$v->declaration} // {$v->permission->label()}, {$v->update_policy->label()}";
+            return "- $v->declaration // {$v->permission->label()}, {$v->update_policy->label()}";
         })->implode("\n");
 
         $variableNames = $variables->pluck('variable_name')->implode(', ');
@@ -45,7 +45,7 @@ final class FirmwareGenerator implements Agent
 
         return <<<INSTRUCTIONS
         You are an expert embedded systems firmware generator for the SmartIoT cloud platform.
-        Generate COMPLETE, COMPILABLE {$language} code for a {$deviceType->label()} device.
+        Generate COMPLETE, COMPILABLE $language code for a {$deviceType->label()} device.
 
         DEVICE INFORMATION:
         - Device ID: {$device->device_id}
@@ -61,13 +61,13 @@ final class FirmwareGenerator implements Agent
         MQTT TOPIC STRUCTURE:
         - Data Out (device → cloud): smartiot/{$this->thing->uuid}/data/out
         - Data In (cloud → device): smartiot/{$this->thing->uuid}/data/in
-        - Command Up (device → cloud): smartiot/{$device->device_id}/cmd/up
-        - Command Down (cloud → device): smartiot/{$device->device_id}/cmd/down
-        - Status (device → cloud): smartiot/{$device->device_id}/status
+        - Command Up (device → cloud): smartiot/$device->device_id/cmd/up
+        - Command Down (cloud → device): smartiot/$device->device_id/cmd/down
+        - Status (device → cloud): smartiot/$device->device_id/status
 
         PROVISIONING API:
-        POST {$appUrl}/api/v1/provision
-        Request Body: {"device_id": "{$device->device_id}", "secret_key": "YOUR_SECRET_KEY"}
+        POST $appUrl/api/v1/provision
+        Request Body: {"device_id": "$device->device_id", "secret_key": "YOUR_SECRET_KEY"}
         Response contains: mqtt.host, mqtt.port, mqtt.use_tls, mqtt.client_id, mqtt.username, mqtt.password, topics object, variables array
 
         WIFI CREDENTIALS:
