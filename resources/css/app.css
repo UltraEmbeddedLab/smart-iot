@@ -64,3 +64,93 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* Documentation prose styles: keeps markdown-rendered content visually
+   consistent with the rest of the site without pulling in a typography
+   plugin. Scoped to .docs-prose so it never leaks. */
+.docs-prose {
+    @apply text-base leading-7 text-zinc-700 dark:text-zinc-300;
+}
+
+.docs-prose > * + * {
+    @apply mt-5;
+}
+
+.docs-prose h2 {
+    @apply mt-14 scroll-mt-24 border-b border-zinc-200 pb-2 text-2xl font-bold tracking-tight text-zinc-900 dark:border-zinc-800 dark:text-white;
+}
+
+.docs-prose h3 {
+    @apply mt-10 scroll-mt-24 text-xl font-semibold tracking-tight text-zinc-900 dark:text-white;
+}
+
+.docs-prose h4 {
+    @apply mt-8 scroll-mt-24 text-lg font-semibold text-zinc-900 dark:text-white;
+}
+
+.docs-prose p {
+    @apply leading-7;
+}
+
+.docs-prose a:not(.docs-anchor) {
+    @apply font-medium text-violet-600 underline decoration-violet-400/40 decoration-2 underline-offset-4 transition-colors hover:text-violet-700 hover:decoration-violet-500 dark:text-violet-400 dark:hover:text-violet-300;
+}
+
+.docs-prose .docs-anchor {
+    @apply mr-2 text-zinc-300 no-underline opacity-0 transition-opacity hover:text-violet-500 dark:text-zinc-700;
+}
+
+.docs-prose h2:hover .docs-anchor,
+.docs-prose h3:hover .docs-anchor,
+.docs-prose h4:hover .docs-anchor {
+    @apply opacity-100;
+}
+
+.docs-prose ul {
+    @apply list-disc space-y-2 pl-6;
+}
+
+.docs-prose ol {
+    @apply list-decimal space-y-2 pl-6;
+}
+
+.docs-prose li::marker {
+    @apply text-zinc-400 dark:text-zinc-600;
+}
+
+.docs-prose code {
+    @apply rounded-md border border-zinc-200 bg-zinc-100 px-1.5 py-0.5 font-mono text-[0.9em] text-violet-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-violet-300;
+}
+
+.docs-prose pre {
+    @apply overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-950 p-4 text-sm leading-6 text-zinc-100 dark:border-zinc-800;
+}
+
+.docs-prose pre code {
+    @apply border-0 bg-transparent p-0 text-inherit;
+}
+
+.docs-prose blockquote {
+    @apply border-l-4 border-violet-400 bg-violet-50/40 px-4 py-2 italic text-zinc-700 dark:border-violet-500 dark:bg-violet-950/20 dark:text-zinc-300;
+}
+
+.docs-prose table {
+    @apply w-full border-collapse overflow-hidden rounded-lg border border-zinc-200 text-left text-sm dark:border-zinc-800;
+}
+
+.docs-prose thead {
+    @apply bg-zinc-50 dark:bg-zinc-900;
+}
+
+.docs-prose th,
+.docs-prose td {
+    @apply border-b border-zinc-200 px-4 py-2 dark:border-zinc-800;
+}
+
+.docs-prose img {
+    @apply rounded-xl border border-zinc-200 dark:border-zinc-800;
+}
+
+.docs-prose hr {
+    @apply my-10 border-zinc-200 dark:border-zinc-800;
+}

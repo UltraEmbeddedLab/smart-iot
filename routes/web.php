@@ -15,3 +15,4 @@ require __DIR__.'/devices.php';
 require __DIR__.'/things.php';
 require __DIR__.'/dashboards.php';
 require __DIR__.'/triggers.php';
+require __DIR__.'/docs.php';

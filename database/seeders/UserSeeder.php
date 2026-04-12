@@ -12,10 +12,13 @@ final class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Bogdy Gewald',
-            'email' => 'bogdygewald@yahoo.de',
-            'password' => 'supertest',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'bogdygewald@yahoo.de'],
+            [
+                'name' => 'Bogdy Gewald',
+                'password' => 'supertest',
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }

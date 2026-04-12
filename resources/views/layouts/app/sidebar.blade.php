@@ -37,7 +37,7 @@
                     {{ __('Repository') }}
                 </flux:sidebar.item>
 
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
+                <flux:sidebar.item icon="book-open-text" :href="route('docs.show')" :current="request()->routeIs('docs.*')" wire:navigate>
                     {{ __('Documentation') }}
                 </flux:sidebar.item>
             </flux:sidebar.nav>
