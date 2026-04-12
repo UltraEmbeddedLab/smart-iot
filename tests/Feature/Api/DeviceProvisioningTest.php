@@ -177,7 +177,10 @@ it('handles device with no associated thing', function (): void {
         ->assertJsonPath('data.variables', []);
 });
 
-it('stores hashed MQTT token in device metadata', function (): void {
+it('returns the static broker credentials from config', function (): void {
+    config()->set('mqtt.username', 'scienceStories');
+    config()->set('mqtt.password', 'supertest12Te');
+
     $user = User::factory()->create();
     $result = Device::createWithCredentials([
         'name' => 'Test Device',
@@ -190,12 +193,9 @@ it('stores hashed MQTT token in device metadata', function (): void {
         'secret_key' => $result['secret_key'],
     ]);
 
-    $response->assertSuccessful();
-
-    $device = $result['device']->fresh();
-    $mqttPassword = $response->json('data.mqtt.password');
-
-    expect($device->getMetadata('mqtt_token'))->toBe(hash('sha256', $mqttPassword));
+    $response->assertSuccessful()
+        ->assertJsonPath('data.mqtt.username', 'scienceStories')
+        ->assertJsonPath('data.mqtt.password', 'supertest12Te');
 });
 
 // --- Heartbeat ---

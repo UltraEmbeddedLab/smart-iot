@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Device;
-use Illuminate\Support\Str;
 use JsonException;
 use Random\RandomException;
 use ScienceStories\Mqtt\Client\Client;
@@ -19,21 +18,21 @@ final class MqttProvisioningService
     /**
      * Generate MQTT connection config for a device.
      *
+     * All devices share the broker credentials configured in .env. Isolation
+     * between devices is enforced through the topic layout in generateTopics(),
+     * not through per-device broker authentication.
+     *
      * @return array{host: string, port: int, use_tls: bool, client_id: string, username: string, password: string}
      */
     public function generateMqttConfig(Device $device): array
     {
-        $token = Str::random(64);
-
-        $device->setMetadata('mqtt_token', hash('sha256', $token));
-
         return [
             'host' => config('mqtt.host'),
             'port' => config('mqtt.port'),
             'use_tls' => config('mqtt.scheme') === 'tls',
             'client_id' => "smartiot_$device->device_id",
-            'username' => config('mqtt.username') ?? $device->device_id,
-            'password' => $token,
+            'username' => (string) (config('mqtt.username') ?? $device->device_id),
+            'password' => (string) config('mqtt.password'),
         ];
     }
 
