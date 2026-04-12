@@ -2,7 +2,6 @@
 
 namespace App\Actions\Docs;
 
-use Illuminate\Support\Facades\Cache;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Exception\CommonMarkException;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
@@ -39,17 +38,7 @@ final class RenderDocument
             throw new RuntimeException('Documentation file not found: '.$absolutePath);
         }
 
-        if (! config('docs.cache.enabled', true)) {
-            return $this->render($absolutePath);
-        }
-
-        $key = 'docs:'.md5($absolutePath).':'.filemtime($absolutePath);
-
-        return Cache::remember(
-            $key,
-            (int) config('docs.cache.ttl', 86400),
-            fn (): array => $this->render($absolutePath),
-        );
+        return $this->render($absolutePath);
     }
 
     /**

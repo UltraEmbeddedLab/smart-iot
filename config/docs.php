@@ -28,22 +28,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Cache
-    |--------------------------------------------------------------------------
-    |
-    | Rendered markdown is cached by file path and modification timestamp so
-    | that unchanged documents never have to be re-parsed. Disable this in
-    | local development if you want to see edits reflect instantly.
-    |
-    */
-
-    'cache' => [
-        'enabled' => env('DOCS_CACHE', true),
-        'ttl' => 60 * 60 * 24, // 24 hours
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Sidebar navigation tree
     |--------------------------------------------------------------------------
     |
