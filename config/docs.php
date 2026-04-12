@@ -49,6 +49,12 @@ return [
                 ['title' => 'Introduction', 'slug' => 'introduction'],
             ],
         ],
+        [
+            'title' => 'Provisioning',
+            'items' => [
+                ['title' => 'Raspberry Pi Pico 2 W (Python)', 'slug' => 'provisioning/pico2w-python'],
+            ],
+        ],
     ],
 
 ];
